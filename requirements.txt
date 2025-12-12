@@ -4,4 +4,5 @@ bcrypt
 cloudinary
 python-dotenv
 gunicorn
-Werkzeug  
+Werkzeug
+google-generativeai

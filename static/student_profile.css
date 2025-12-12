@@ -1,5 +1,5 @@
 :root {
-  --primary: #3b82f6;
+  --primary: #facc15;
   --primary-dark: #1e40af;
   --danger: #ef4444;
   --bg-light: #f9fafb;
@@ -254,7 +254,7 @@
   font-size: 1rem;
   margin-right: 0.7rem;
 }
-.toast.success { background: #10b981; }
+.toast.success { background: #facc15; }
 .toast.danger { background: var(--danger); }
 
 @media (max-width: 950px) {

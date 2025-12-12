@@ -1,5 +1,5 @@
 :root {
-  --primary-color: #3b82f6;
+  --primary-color: #facc15;
   --text-color: #1f2937;
   --bg-color: #f9fafb;
   --card-bg: #ffffff;
@@ -17,7 +17,7 @@
 }
 
 [data-theme="dark"] {
-  --primary-color: #3b82f6;
+  --primary-color: #facc15;
   --text-color: #f1f5f9;
   --bg-color: #1e293b;
   --card-bg: #2d3748;
@@ -25,7 +25,7 @@
   --shadow-color: rgba(0, 0, 0, 0.4);
   --input-bg: #2d3748;
   --input-border: #4a5568;
-  --btn-bg: #3b82f6;
+  --btn-bg: #facc15;
   --btn-color: #fff;
   --btn-hover-bg: #2563eb;
   --muted-text: #94a3b8;

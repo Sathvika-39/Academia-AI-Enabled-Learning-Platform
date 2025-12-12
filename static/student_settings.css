@@ -1,10 +1,10 @@
 :root {
   /* Light Theme Colors */
-  --primary: #3b82f6;
+  --primary: #facc15;
   --primary-dark: #1e40af;
   --danger: #ef4444;
   --danger-dark: #b91c1c;
-  --success: #10b981;
+  --success: #facc15;
 
   --bg-light: #f9fafb;
   --card-bg-light: #fff;
@@ -23,7 +23,7 @@
   --primary-dark: #2563eb;
   --danger: #ef4444;
   --danger-dark: #b91c1c;
-  --success: #10b981;
+  --success: #facc15;
 
   --bg-light: #1f2937;
   --card-bg-light: #374151;

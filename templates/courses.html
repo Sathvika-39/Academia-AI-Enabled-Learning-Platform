@@ -1,110 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Courses | Ascend</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Courses | Academia</title>
   <link rel="stylesheet" href="/static/courses.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
 </head>
+
 <body>
 
   <!-- Navbar -->
-  <header class="navbar">
-    <div class="logo">Ascend</div>
-    <ul class="nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="/courses" class="active">Courses</a></li>
-      <li><a href="/signin-up" class="btn">Get Started</a></li>
-    </ul>
-  </header>
+  <nav class="d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center logo-container">
+      <a href="/" style="text-decoration: none;">
+        <h2 class="ms-2 gradient-text">Academia</h2>
+      </a>
+    </div>
+    <div class="d-flex align-items-center nav-links">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/courses">Courses</a>
+      <a href="/signin-up" class="btn btn-light ms-3">Get Started</a>
+    </div>
+  </nav>
 
-  <!-- Search Section -->
+  <!-- Search & Filter Section -->
   <section class="search-bar">
     <h1><span id="typed-text"></span></h1>
+
     <div class="search-box">
       <input type="text" id="searchInput" placeholder="Search for courses..." />
-      <button>Search</button>
+      <button id="searchBtn">Search</button>
+    </div>
+
+    <!-- Category Filters -->
+    <div class="filter-container">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="ai">AI & ML</button>
+      <button class="filter-btn" data-filter="data">Data Science</button>
+      <button class="filter-btn" data-filter="coding">Programming</button>
+      <button class="filter-btn" data-filter="security">Cyber Security</button>
+      <button class="filter-btn" data-filter="design">Design</button>
     </div>
   </section>
 
   <!-- Course Grid -->
- <!-- Course Grid -->
-<section class="course-grid">
-  <div class="course-card" data-aos="fade-up" data-aos-delay="100">
-    <img src="/static/images/machine.jpg" alt="ML" />
-    <h3>MACHINE LEARNING (Self-Paced)</h3>
-    <ul class="course-info">
-      <li><strong>Instructor:</strong> Dr. Rajeev Mehta</li>
-      <li><strong>Duration:</strong> 6 weeks</li>
-      <li><strong>Difficulty:</strong> <i class="fas fa-signal"></i> Intermediate</li>
-      <li><strong>Category:</strong> <i class="fas fa-brain"></i> AI & ML</li>
-    </ul>
-    <button class="enroll-btn">View Details</button>
-  </div>
+  <section class="course-grid">
 
-  <div class="course-card" data-aos="fade-up" data-aos-delay="200">
-    <img src="/static/images/data.jpg" alt="DS" />
-    <h3>DATA SCIENCE (Self-Paced)</h3>
-    <ul class="course-info">
-      <li><strong>Instructor:</strong> Prof. Nisha Patel</li>
-      <li><strong>Duration:</strong> 8 weeks</li>
-      <li><strong>Difficulty:</strong> <i class="fas fa-signal"></i> Advanced</li>
-      <li><strong>Category:</strong> <i class="fas fa-database"></i> Data Science</li>
-    </ul>
-    <button class="enroll-btn">View Details</button>
-  </div>
+    <!-- Course 1 -->
+    <div class="course-card" data-category="ai"
+      data-desc="Master Machine Learning concepts from regression to deep learning with hands-on Python projects."
+      data-aos="fade-up">
+      <div class="card-image">
+        <span class="badge popular">Popular</span>
+        <img src="/static/images/machine.jpg" alt="ML" />
+        <div class="overlay">
+          <button class="view-details-btn">Quick View</button>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-header">
+          <span class="category-tag"><i class="fas fa-brain"></i> AI & ML</span>
+          <span class="rating"><i class="fas fa-star"></i> 4.8</span>
+        </div>
+        <h3>Machine Learning Mastery</h3>
+        <p class="instructor">By <span class="instructor-name">Dr. Rajeev Mehta</span></p>
+        <div class="card-footer">
 
-  <div class="course-card" data-aos="fade-up" data-aos-delay="300">
-    <img src="/static/images/dsa.png" alt="DSA in Python" />
-    <h3>DSA in Python</h3>
-    <ul class="course-info">
-      <li><strong>Instructor:</strong> Mr. Rahul Iyer</li>
-      <li><strong>Duration:</strong> 5 weeks</li>
-      <li><strong>Difficulty:</strong> <i class="fas fa-signal"></i> Beginner</li>
-      <li><strong>Category:</strong> <i class="fas fa-code"></i> Programming</li>
-    </ul>
-    <button class="enroll-btn">View Details</button>
-  </div>
+          <span class="duration"><i class="far fa-clock"></i> 6 Weeks</span>
+        </div>
+      </div>
+    </div>
 
-  <div class="course-card" data-aos="fade-up" data-aos-delay="400">
-    <img src="/static/images/cyber.jpeg" alt="CYBER SECURITY" />
-    <h3>CYBER SECURITY</h3>
-    <ul class="course-info">
-      <li><strong>Instructor:</strong> Ms. Sneha Kulkarni</li>
-      <li><strong>Duration:</strong> 4 weeks</li>
-      <li><strong>Difficulty:</strong> <i class="fas fa-signal"></i> Beginner</li>
-      <li><strong>Category:</strong> <i class="fas fa-shield-alt"></i> Cybersecurity</li>
-    </ul>
-    <button class="enroll-btn">View Details</button>
-  </div>
-</section>
+    <!-- Course 2 -->
+    <div class="course-card" data-category="data"
+      data-desc="Become a Data Scientist. Learn statistics, visualization, and predictive modeling." data-aos="fade-up"
+      data-aos-delay="100">
+      <div class="card-image">
+        <span class="badge new">New</span>
+        <img src="/static/images/data.jpg" alt="DS" />
+        <div class="overlay">
+          <button class="view-details-btn">Quick View</button>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-header">
+          <span class="category-tag"><i class="fas fa-database"></i> Data Science</span>
+          <span class="rating"><i class="fas fa-star"></i> 4.9</span>
+        </div>
+        <h3>Data Science Bootcamp</h3>
+        <p class="instructor">By <span class="instructor-name">Prof. Nisha Patel</span></p>
+        <div class="card-footer">
 
+          <span class="duration"><i class="far fa-clock"></i> 8 Weeks</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Course 3 -->
+    <div class="course-card" data-category="coding"
+      data-desc="Master Data Structures and Algorithms in Python to crack coding interviews." data-aos="fade-up"
+      data-aos-delay="200">
+      <div class="card-image">
+        <span class="badge beginner">Beginner</span>
+        <img src="/static/images/dsa.png" alt="DSA" />
+        <div class="overlay">
+          <button class="view-details-btn">Quick View</button>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-header">
+          <span class="category-tag"><i class="fas fa-code"></i> Programming</span>
+          <span class="rating"><i class="fas fa-star"></i> 4.7</span>
+        </div>
+        <h3>DSA in Python</h3>
+        <p class="instructor">By <span class="instructor-name">Mr. Rahul Iyer</span></p>
+        <div class="card-footer">
+
+          <span class="duration"><i class="far fa-clock"></i> 5 Weeks</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Course 4 -->
+    <div class="course-card" data-category="security"
+      data-desc="Learn ethical hacking, network security, and how to protect systems from cyber threats."
+      data-aos="fade-up" data-aos-delay="300">
+      <div class="card-image">
+        <span class="badge advanced">Advanced</span>
+        <img src="/static/images/cyber.jpeg" alt="Cyber" />
+        <div class="overlay">
+          <button class="view-details-btn">Quick View</button>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-header">
+          <span class="category-tag"><i class="fas fa-shield-alt"></i> Security</span>
+          <span class="rating"><i class="fas fa-star"></i> 4.9</span>
+        </div>
+        <h3>Cyber Security Expert</h3>
+        <p class="instructor">By <span class="instructor-name">Ms. Sneha Kulkarni</span></p>
+        <div class="card-footer">
+
+          <span class="duration"><i class="far fa-clock"></i> 4 Weeks</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Course Modal -->
+  <div id="courseModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="modal-body">
+        <div class="modal-left">
+          <img id="modalImg" src="" alt="Course Image">
+        </div>
+        <div class="modal-right">
+          <h2 id="modalTitle">Course Title</h2>
+          <p class="modal-instructor">Instructor: <span id="modalInstructor"></span></p>
+          <p id="modalDesc" class="modal-desc">Course Description goes here...</p>
+          <div class="modal-meta">
+            <span id="modalPrice" class="modal-price">$0.00</span>
+            <button class="enroll-now-btn">Enroll Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Footer -->
-  <footer class="ascend-footer">
+  <footer class="academia-footer">
     <div class="footer-wrapper">
       <div class="footer-brand">
-        <div class="footer-logo">🚀 <span>Ascend</span></div>
+        <div class="footer-logo">🚀 <span>Academia</span></div>
         <p>Unlock your full potential with real-world learning, one step at a time.</p>
       </div>
       <div class="footer-links">
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Join Our Community</a>
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/signin-up">Join Our Community</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 Ascend. All rights reserved.</p>
+      <p>© 2025 Academia. All rights reserved.</p>
     </div>
   </footer>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="/static/js/courses.js"></script>
   <script>
     // Typing effect
     AOS.init();
@@ -116,4 +207,5 @@
     });
   </script>
 </body>
+
 </html>

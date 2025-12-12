@@ -2,27 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 :root {
-  --primary-blue: #3b82f6;
-  --primary-dark: #0f172a;
-  --bg-light: #f9fafb;
-  --bg-dark: #1e1e2f;
-  --text-light: #f1f5f9;
-  --text-dark: #1f2937;
-  --text-muted-light: #6b7280;
-  --text-muted-dark: #94a3b8;
-  --card-bg-light: #ffffff;
-  --card-bg-dark: #2d2e3a;
-  --border-light: #e2e8f0;
-  --border-dark: #334155;
-  --shadow-light: rgba(0, 0, 0, 0.06);
-  --shadow-dark: rgba(0, 0, 0, 0.3);
-  --transition: 0.3s ease-in-out;
-}
-
-[data-theme="light"] {
-  --bg: var(--bg-light);
-  --text: var(--text-dark);
-  --text-muted: var(--text-muted-light);
+  --primary-blue: #facc15; /* Sky 400 */
+  --primary-dark: #0a0a0a; /* Slate 900 */
+  --bg-light: #f8fafc;
+  --bg-dark: #0a0a0a; /* Slate 900 */
+  --text-light: #f8fafc;
+  --text-dark: #1a1a1a;
+  --text-muted-light: #64748b;
   --card-bg: var(--card-bg-light);
   --border: var(--border-light);
   --shadow: var(--shadow-light);
@@ -102,7 +88,7 @@ body {
 .sidebar nav button.theme-toggle:hover {
   background-color: var(--primary-blue);
   color: white;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25);
 }
 
 .sidebar nav a i,

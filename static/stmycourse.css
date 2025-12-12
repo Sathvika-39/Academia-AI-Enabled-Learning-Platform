@@ -1,5 +1,5 @@
 :root {
-  --primary: #3b82f6;
+  --primary: #facc15;
   --primary-dark: #2563eb;
   --bg-light: #f9fafb;
   --bg-dark: #1e1e2f;
@@ -205,7 +205,7 @@ body {
   z-index: 2;
 }
 .badge-complete {
-  background: #10b981;
+  background: #facc15;
 }
 .badge-inprogress {
   background: var(--primary-dark);

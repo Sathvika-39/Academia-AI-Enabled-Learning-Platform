@@ -1,8 +1,8 @@
 :root {
-  --primary: #3b82f6;
+  --primary: #facc15;
   --primary-dark: #1e40af;
-  --primary-fade: #3b82f622;
-  --success: #10b981;
+  --primary-fade: #facc1522;
+  --success: #facc15;
   --danger: #ef4444;
   --bg-light: #f9fafb;
   --bg-dark: #181d2f;
@@ -762,13 +762,13 @@ li i {
   height: 48px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--primary, #3b82f6);
+  border: 2px solid var(--primary, #facc15);
 }
 .modal-title {
   margin: 0;
   font-weight: 700;
   font-size: 1.25rem;
-  color: var(--primary, #3b82f6);
+  color: var(--primary, #facc15);
 }
 .review-user {
   font-size: 0.9rem;
@@ -796,7 +796,7 @@ li i {
 .star-rating label:hover,
 .star-rating label.hover,
 .star-rating input:checked ~ label {
-  color: var(--primary, #3b82f6);
+  color: var(--primary, #facc15);
 }
 
 /* Textarea */
@@ -823,7 +823,7 @@ li i {
 /* Submit Button */
 .modal-submit-btn {
   width: 100%;
-  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  background: linear-gradient(90deg, #facc15, #2563eb);
   border: none;
   padding: 0.75rem 0;
   border-radius: 10px;
@@ -838,7 +838,7 @@ li i {
   transition: background 0.3s ease;
 }
 .modal-submit-btn:hover {
-  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  background: linear-gradient(90deg, #2563eb, #facc15);
 }
 
 /* Toast Notifications */
@@ -857,7 +857,7 @@ li i {
 }
 
 .toast {
-  background: var(--primary, #3b82f6);
+  background: var(--primary, #facc15);
   color: #fff;
   padding: 0.85rem 1.25rem;
   border-radius: 10px;

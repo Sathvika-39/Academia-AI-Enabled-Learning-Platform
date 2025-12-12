@@ -1,86 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ascend - Login/Signup</title>
+  <title>Academia - Login/Signup</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link rel="stylesheet" href="/static/signin-up.css">
 </head>
+
 <body>
 
-<nav class="d-flex justify-content-between align-items-center">
-  <div class="d-flex align-items-center logo-container">
-    <a href="/" style="text-decoration: none;">
-      <h2 class="ms-2" style="color: #3b82f6;">Ascend</h2>
-    </a>
-  </div>
-  <div class="d-flex align-items-center nav-links">
-    <a href="/">Home</a>
-    <a href="/about">About</a>
-    <a href="/courses">Courses</a>
-    <a href="/signin-up" class="btn btn-light ms-3">Get Started</a>
-  </div>
-</nav>
+  <nav class="d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center logo-container">
+      <a href="/" style="text-decoration: none;">
+        <h2 class="ms-2 gradient-text">Academia</h2>
+      </a>
+    </div>
+    <div class="d-flex align-items-center nav-links">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/courses">Courses</a>
+      <a href="/signin-up" class="btn btn-light ms-3" style="display: none;">Get Started</a>
+    </div>
+  </nav>
 
-<!-- Main Container -->
-<div class="container" id="container" data-default-panel="{{ panel | default('signin') }}">
-  <!-- Sign Up Form -->
-  <div class="form-container sign-up">
-    <form method="POST" action="/signin-up">
-      <h1>Create Your Ascend Account</h1>
-      <span>Or use your email to join Ascend</span>
-      {% if error and error_type == 'signup' %}
+  <!-- Main Container -->
+  <div class="container" id="container" data-default-panel="{{ panel | default('signin') }}">
+    <!-- Sign Up Form -->
+    <div class="form-container sign-up">
+      <form method="POST" action="/signin-up">
+        <h1>Create Your Academia Account</h1>
+        <span>Or use your email to join Academia</span>
+        {% if error and error_type == 'signup' %}
         <p style="color: red; font-weight: 500; margin: 6px 0 4px;">{{ error }}</p>
-      {% endif %}
-      <input type="hidden" name="action" value="signup" />
-      <input type="text" name="fullname" placeholder="Full Name" required />
-      <input type="email" name="email" placeholder="Email Address" required />
-      <input type="text" name="mobile" placeholder="Mobile Number" required />
-      <input type="password" name="password" placeholder="Create Password" required />
-      <select class="user-role" name="role" required>
-        <option value="">Select Role</option>
-        <option value="student">🎓 Student</option>
-        <option value="instructor">👨‍🏫 Instructor</option>
-      </select>
-      <button type="submit">Sign Up</button>
-    </form>
-  </div>
+        {% endif %}
+        <input type="hidden" name="action" value="signup" />
+        <input type="text" name="fullname" placeholder="Full Name" required />
+        <input type="email" name="email" placeholder="Email Address" required />
+        <input type="text" name="mobile" placeholder="Mobile Number" required />
+        <input type="password" name="password" placeholder="Create Password" required />
+        <select class="user-role" name="role" required>
+          <option value="">Select Role</option>
+          <option value="student">🎓 Student</option>
+          <option value="instructor">👨‍🏫 Instructor</option>
+        </select>
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
 
-  <!-- Sign In Form -->
-  <div class="form-container sign-in">
-    <form method="POST" action="/signin-up">
-      <h1 class="signinhead">Sign In to Ascend</h1>
-      <span>Or log in with your email</span>
-      {% if error and error_type == 'signin' %}
+    <!-- Sign In Form -->
+    <div class="form-container sign-in">
+      <form method="POST" action="/signin-up">
+        <h1 class="signinhead">Sign In to Academia</h1>
+        <span>Or log in with your email</span>
+        {% if error and error_type == 'signin' %}
         <p style="color: red; font-weight: 500; margin: 6px 0 4px;">{{ error }}</p>
-      {% endif %}
-      <input type="hidden" name="action" value="signin" />
-      <input type="email" name="email" placeholder="Email Address" required />
-      <input type="password" name="password" placeholder="Password" required />
-      <a href="#">Forgot Your Password?</a>
-      <button type="submit">Sign In</button>
-    </form>
-  </div>
+        {% endif %}
+        <input type="hidden" name="action" value="signin" />
+        <input type="email" name="email" placeholder="Email Address" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <a href="#">Forgot Your Password?</a>
+        <button type="submit">Sign In</button>
+      </form>
+    </div>
 
-  <!-- Toggle Container -->
-  <div class="toggle-container">
-    <div class="toggle">
-      <div class="toggle-panel toggle-left">
-        <h1>Welcome Back to Ascend!</h1>
-        <p>Continue your learning journey and unlock new skills with Ascend's personalized platform.</p>
-        <button class="hidden" id="login">Sign In</button>
-      </div>
-      <div class="toggle-panel toggle-right">
-        <h1>Join the Ascend Community!</h1>
-        <p>Sign up now and start building skills that will help you unlock your potential.</p>
-        <button class="hidden" id="register">Sign Up</button>
+    <!-- Toggle Container -->
+    <div class="toggle-container">
+      <div class="toggle">
+        <div class="toggle-panel toggle-left">
+          <h1>Welcome Back to Academia!</h1>
+          <p>Continue your learning journey and unlock new skills with Academia's personalized platform.</p>
+          <button class="hidden" id="login">Sign In</button>
+        </div>
+        <div class="toggle-panel toggle-right">
+          <h1>Join the Academia Community!</h1>
+          <p>Sign up now and start building skills that will help you unlock your potential.</p>
+          <button class="hidden" id="register">Sign Up</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- JavaScript -->
-<script src="/static/js/signin-up.js"></script>
+  <!-- JavaScript -->
+  <script src="/static/js/signin-up.js"></script>
 </body>
+
 </html>

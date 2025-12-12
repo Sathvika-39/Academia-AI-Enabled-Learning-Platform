@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 :root {
-  --primary-blue: #3b82f6;
+  --primary-blue: #facc15;
   --primary-dark: #1e40af;
   --bg-light: #f8fafb;
   --bg-dark: #0f172a;
@@ -126,8 +126,8 @@ img {
   height: 32px;
 }
 .stat-card .icon.purple { background-color: #8b5cf6; }
-.stat-card .icon.blue   { background-color: #3b82f6; }
-.stat-card .icon.green  { background-color: #10b981; }
+.stat-card .icon.blue   { background-color: #facc15; }
+.stat-card .icon.green  { background-color: #facc15; }
 .stat-card .icon.orange { background-color: #f97316; }
 
 .stat-info h4 {
@@ -177,7 +177,7 @@ img {
   gap: 0.5rem;
   font-size: 0.97rem;
   font-weight: 500;
-  background: var(--primary-blue, #3b82f6);
+  background: var(--primary-blue, #facc15);
   color: #fff;
   padding: 0.36rem 1rem;
   border-radius: 50px;
@@ -279,7 +279,7 @@ img {
   margin: 0.6em 0 0.2em;
 }
 .progress-bar .progress {
-  background: linear-gradient(90deg, #3b82f6, #60a5fa 99%);
+  background: linear-gradient(90deg, #facc15, #60a5fa 99%);
   height: 100%;
   border-radius: 6px;
   min-width: 6%;
@@ -306,7 +306,7 @@ img {
   letter-spacing: 0.01em;
 }
 .btn.continue-btn:hover {
-  background: #2563eb;
+  background: #eab308;
 }
 @media (max-width: 1024px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -352,7 +352,7 @@ img {
   position: absolute;
   top: 10px;
   right: 12px;
-  background: #3b82f6;               /* Your theme's primary blue */
+  background: #facc15;               /* Your theme's primary blue */
   color: #fff;
   font-size: 0.95rem;
   font-weight: 600;
@@ -363,7 +363,7 @@ img {
   gap: 0.21em;
   min-height: 22px;
   min-width: 62px;
-  box-shadow: 0 1px 6px #3b82f615;
+  box-shadow: 0 1px 6px #facc1515;
   letter-spacing: 0.01em;
   z-index: 2;
   border: none;
@@ -378,13 +378,13 @@ img {
 }
 
 .badge-completed:hover {
-  box-shadow: 0 2px 12px #3b82f655;
+  box-shadow: 0 2px 12px #facc1555;
   transform: scale(1.05);
 }
 
 /* Optional: Dark mode (keeps it blue, but you can change shade) */
 [data-theme="dark"] .badge-completed {
-  background: #2563eb;
+  background: #eab308;
 }
 
 .course-card {

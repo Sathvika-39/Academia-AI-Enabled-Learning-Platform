@@ -26,7 +26,6 @@ def instructor_dashboard():
 
     for course in published_courses:
         course_id = course["_id"]
-        # Count users whose enrolled_courses contains this course_id
         student_count = db.users.count_documents({"enrolled_courses": course_id})
         total_students += student_count
 
