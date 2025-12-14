@@ -6,47 +6,96 @@ import os
 from dotenv import load_dotenv
 import bcrypt
 
+# --------------------------------------------------
 # Load environment variables
+# --------------------------------------------------
 load_dotenv()
 
-app = Flask(__name__)
-app.secret_key = "supersecretkey"  
+# --------------------------------------------------
+# Flask App
+# --------------------------------------------------
+app = Flask(
+    __name__,
+    static_folder="static",
+    template_folder="templates"
+)
 
-# MongoDB connection
-# MongoDB connection (Gunicorn-safe)
-client = MongoClient(os.getenv("MONGO_URI"))
-db = client["Ascend"]
+app.secret_key = os.getenv("SECRET_KEY", "dev-secret")
 
-courses_collection = db["courses"]
+# --------------------------------------------------
+# MongoDB Connection (Render Safe)
+# --------------------------------------------------
+MONGO_URI = os.getenv("MONGO_URI")
+DB_NAME = os.getenv("DB_NAME", "Ascend")
+
+if not MONGO_URI:
+    raise RuntimeError("❌ MONGO_URI not set in environment variables")
+
+client = MongoClient(
+    MONGO_URI,
+    serverSelectionTimeoutMS=8000,
+    connectTimeoutMS=8000,
+    socketTimeoutMS=8000,
+)
+
+db = client[DB_NAME]
+
+# Verify DB connection on boot
+try:
+    client.admin.command("ping")
+    print("✅ MongoDB connected successfully")
+except Exception as e:
+    print("❌ MongoDB connection failed:", e)
+    raise
+
+# Collections
+courses_collection = db.courses
 enrollments_collection = db.enrollments
 users_collection = db.users
 
-
-# Cloudinary config
+# --------------------------------------------------
+# Cloudinary Configuration
+# --------------------------------------------------
 cloudinary.config(
     cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
     api_key=os.getenv("CLOUDINARY_API_KEY"),
-    api_secret=os.getenv("CLOUDINARY_API_SECRET")
+    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
 )
 
-# Create admin user if not exists
+# --------------------------------------------------
+# Create Admin User (Runs on Render too)
+# --------------------------------------------------
 def create_admin_if_not_exists():
     admin_email = "admin@ascend.com"
-    existing_admin = db.users.find_one({"email": admin_email})
-    if not existing_admin:
-        hashed_password = bcrypt.hashpw("admin123".encode('utf-8'), bcrypt.gensalt())
-        db.users.insert_one({
-            "fullname": "Super Admin",
-            "email": admin_email,
-            "mobile": "9999999999",
-            "password": hashed_password.decode('utf-8'),
-            "role": "admin"
-        })
-        print("✅ Admin user created")
-    else:
-        print("ℹ️ Admin user already exists")
 
-# Home route
+    if users_collection.find_one({"email": admin_email}):
+        print("ℹ️ Admin already exists")
+        return
+
+    hashed_password = bcrypt.hashpw(
+        "admin123".encode("utf-8"),
+        bcrypt.gensalt()
+    )
+
+    users_collection.insert_one({
+        "fullname": "Super Admin",
+        "email": admin_email,
+        "mobile": "9999999999",
+        "password": hashed_password.decode("utf-8"),
+        "role": "admin",
+    })
+
+    print("✅ Admin user created")
+
+# Run once at startup (Gunicorn safe)
+try:
+    create_admin_if_not_exists()
+except Exception as e:
+    print("⚠️ Admin creation skipped:", e)
+
+# --------------------------------------------------
+# Routes – Pages
+# --------------------------------------------------
 @app.route("/")
 def home():
     return render_template("home.html")
@@ -59,12 +108,14 @@ def courses():
 def about():
     return render_template("about.html")
 
+# --------------------------------------------------
 # Sign In / Sign Up
+# --------------------------------------------------
 @app.route("/signin-up", methods=["GET", "POST"])
 def signin_signup():
     if request.method == "POST":
         action = request.form.get("action")
-        email = request.form.get("email", "").strip()
+        email = request.form.get("email", "").strip().lower()
         password = request.form.get("password", "").strip()
 
         if not email or not password:
@@ -75,6 +126,7 @@ def signin_signup():
                 panel=action
             )
 
+        # ---------------- SIGN UP ----------------
         if action == "signup":
             fullname = request.form.get("fullname", "").strip()
             mobile = request.form.get("mobile", "").strip()
@@ -88,7 +140,7 @@ def signin_signup():
                     panel="signup"
                 )
 
-            if db.users.find_one({"email": email}):
+            if users_collection.find_one({"email": email}):
                 return render_template(
                     "signin-up.html",
                     error="Email already exists. Please sign in.",
@@ -96,20 +148,26 @@ def signin_signup():
                     panel="signup"
                 )
 
-            hashed_pw = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-            db.users.insert_one({
+            hashed_pw = bcrypt.hashpw(
+                password.encode("utf-8"),
+                bcrypt.gensalt()
+            )
+
+            users_collection.insert_one({
                 "fullname": fullname,
                 "email": email,
                 "mobile": mobile,
-                "password": hashed_pw.decode('utf-8'),
+                "password": hashed_pw.decode("utf-8"),
                 "role": role
             })
 
             flash("Signup successful! Please sign in.", "success")
             return redirect(url_for("signin_signup"))
 
-        elif action == "signin":
-            user = db.users.find_one({"email": email})
+        # ---------------- SIGN IN ----------------
+        if action == "signin":
+            user = users_collection.find_one({"email": email})
+
             if not user:
                 return render_template(
                     "signin-up.html",
@@ -118,7 +176,10 @@ def signin_signup():
                     panel="signin"
                 )
 
-            if not bcrypt.checkpw(password.encode('utf-8'), user['password'].encode('utf-8')):
+            if not bcrypt.checkpw(
+                password.encode("utf-8"),
+                user["password"].encode("utf-8")
+            ):
                 return render_template(
                     "signin-up.html",
                     error="Incorrect password.",
@@ -126,6 +187,7 @@ def signin_signup():
                     panel="signin"
                 )
 
+            session.clear()
             session["user_id"] = str(user["_id"])
             session["role"] = user["role"]
 
@@ -135,34 +197,51 @@ def signin_signup():
                 return redirect("/instructor/dashboard")
             elif user["role"] == "admin":
                 return redirect("/admin/dash")
-            else:
-                return render_template(
-                    "signin-up.html",
-                    error="Unknown user role. Contact support.",
-                    error_type="signin",
-                    panel="signin"
-                )
+
+            return render_template(
+                "signin-up.html",
+                error="Unknown role.",
+                error_type="signin",
+                panel="signin"
+            )
 
     return render_template("signin-up.html", panel="signin")
 
+# --------------------------------------------------
 # Logout
+# --------------------------------------------------
 @app.route("/logout")
 def logout():
     session.clear()
-    flash("You have been logged out.", "success")
+    flash("Logged out successfully.", "success")
     return redirect(url_for("signin_signup"))
 
+# --------------------------------------------------
+# Theme Injector
+# --------------------------------------------------
 @app.context_processor
 def inject_theme():
-    theme = request.cookies.get('theme', 'light')
+    theme = request.cookies.get("theme", "light")
     return dict(theme=theme)
 
+# --------------------------------------------------
+# Health Check (VERY IMPORTANT)
+# --------------------------------------------------
+@app.route("/health")
+def health():
+    client.admin.command("ping")
+    return {"status": "ok"}
+
+# --------------------------------------------------
+# Controllers
+# --------------------------------------------------
 from controllers.admin import *
 from controllers.instructor import *
 from controllers.student import *
 from controllers.chat import *
 
-# Start server
+# --------------------------------------------------
+# Local run only
+# --------------------------------------------------
 if __name__ == "__main__":
-    create_admin_if_not_exists()
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
