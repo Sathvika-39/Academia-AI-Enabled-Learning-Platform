@@ -14,11 +14,9 @@ app.secret_key = "supersecretkey"
 
 # MongoDB connection
 # MongoDB connection (Gunicorn-safe)
-def get_db():
-    client = MongoClient(os.getenv("MONGO_URI"))
-    return client["Ascend"]
+client = MongoClient(os.getenv("MONGO_URI"))
+db = client["Ascend"]
 
-db = get_db()
 courses_collection = db["courses"]
 enrollments_collection = db.enrollments
 users_collection = db.users
