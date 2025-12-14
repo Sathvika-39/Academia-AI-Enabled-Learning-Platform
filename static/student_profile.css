@@ -276,3 +276,83 @@
 ::-moz-placeholder { color: var(--text-muted); }
 :-ms-input-placeholder { color: var(--text-muted); }
 ::placeholder { color: var(--text-muted); }
+/* ===== ABSOLUTE FORCE LEFT SIDEBAR BLACK ===== */
+
+/* left fixed panels */
+aside,
+nav,
+[class*="side"],
+[class*="Side"],
+[class*="sidebar"],
+[class*="Sidebar"],
+[class*="sidenav"],
+[class*="menu"] {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* links inside sidebar */
+aside a,
+nav a,
+[class*="side"] a,
+[class*="menu"] a {
+  color: #e5e7eb !important;
+}
+
+/* active / hover */
+aside a:hover,
+nav a:hover,
+[class*="side"] a.active,
+[class*="menu"] a.active {
+  background-color: #1f2937 !important;
+  color: #ffffff !important;
+}
+
+/* icons */
+aside i,
+nav i,
+[class*="side"] i {
+  color: #facc15 !important;
+}
+
+/* ===== FIX BLUE AREA BETWEEN INPUTS (PROFILE RIGHT CARD) ===== */
+
+/* main right card */
+.profile-right {
+  background: #000000 !important;
+}
+
+/* entire profile card wrapper */
+.profile-page {
+  background: #000000 !important;
+}
+
+/* ensure form background is black */
+.profile-form {
+  background: #000000 !important;
+}
+
+/* remove inner blue bleed */
+.profile-right,
+.profile-right * {
+  background-clip: padding-box;
+}
+
+/* tighten spacing between fields */
+.profile-right .form-group {
+  margin-bottom: 12px !important;
+}
+
+/* labels spacing */
+.profile-right label {
+  margin-bottom: 4px !important;
+}
+
+/* inputs spacing */
+.profile-right input,
+.profile-right textarea {
+  margin-bottom: 0 !important;
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #333 !important;
+}

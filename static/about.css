@@ -348,3 +348,57 @@ nav h2 {
   font-weight: bold;
   font-size: 1.2rem;
 }
+/* ================== FORCE PURE BLACK THEME FIX ================== */
+
+/* Remove brown tint – make background pure black */
+body {
+  background: #000 !important;
+}
+
+/* Hero / Sections background → black */
+.about-hero,
+.impact-metrics,
+.faq-section {
+  background: #000 !important;
+}
+
+/* Navbar background → black */
+nav {
+  background: #000 !important;
+  border: 1px solid #111;
+}
+
+/* ALL cards → black */
+.metric-card,
+.faq-item {
+  background: #000 !important;
+  border: 1px solid #111;
+}
+
+/* Text inside cards → white */
+.metric-card h3,
+.metric-card p,
+.faq-item h3,
+.answer {
+  color: #ffffff !important;
+}
+
+/* Paragraphs & muted text → light grey */
+.about-hero p,
+.hero-benefits li,
+.metric-card p,
+.answer {
+  color: #d1d5db !important;
+}
+
+/* Footer → black */
+.footer {
+  background: #000 !important;
+  color: #9ca3af;
+}
+
+/* Remove any remaining glass/grey overlays */
+* {
+  backdrop-filter: none !important;
+}
+

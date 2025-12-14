@@ -327,3 +327,57 @@ body {
   .search-sort-container input, .search-sort-container select { font-size: .97rem; min-width: 110px;}
   .topbar-controls { flex-direction: column; gap: 0.8rem; }
 }
+/* ===== PURE BLACK DARK MODE — MY COURSES PAGE ===== */
+
+[data-theme='dark'] {
+  --bg-dark: #000000 !important;
+  --card-bg-dark: #000000 !important;
+  --border-dark: #1f1f1f !important;
+  --shadow-dark: none !important;
+  --muted-dark: #9ca3af !important;
+}
+
+/* Page background */
+[data-theme='dark'] body {
+  background: #000000 !important;
+}
+
+/* Main wrapper */
+[data-theme='dark'] .mycourses-wrapper {
+  background: #000000 !important;
+}
+
+/* Top area */
+[data-theme='dark'] .topbar-controls {
+  background: #000000 !important;
+}
+
+/* Search & sort */
+[data-theme='dark'] .search-sort-container input,
+[data-theme='dark'] .search-sort-container select {
+  background: #000000 !important;
+  color: #f8fafc !important;
+  border-color: #1f1f1f !important;
+}
+
+/* Course cards */
+[data-theme='dark'] .course-card {
+  background: #000000 !important;
+  border: 1px solid #1f1f1f !important;
+  box-shadow: none !important;
+}
+
+/* Card thumbnail divider */
+[data-theme='dark'] .card-thumb img {
+  border-bottom: 1px solid #1f1f1f !important;
+}
+
+/* Progress bar */
+[data-theme='dark'] .progress-bar {
+  background: #1f1f1f !important;
+}
+
+/* Remove all blue/gradient leftovers */
+[data-theme='dark'] * {
+  background-image: none !important;
+}

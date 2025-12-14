@@ -1,48 +1,57 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="{{ theme | default('light') }}">
+<html lang="en" data-theme="dark">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}Dashboard{% endblock %}</title>
 
-
-
   {% block head %}{% endblock %}
 
   <!-- Fonts + Icons + Styles -->
   <link rel="stylesheet" href="{{ url_for('static', filename='instructor_dash.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-
-
 </head>
 
 <body>
   <div class="dashboard-container">
+
     <!-- Sidebar -->
     <aside class="sidebar" style="position: fixed; height: 100vh; top: 0; left: 0;">
-      <div class="brand"><i class="fas fa-rocket"></i> Academia</div>
-      <nav>
-        <a href="/instructor/dashboard" class="{% if page == 'dashboard' %}active{% endif %}"><i
-            class="fas fa-home"></i> Dashboard</a>
-        <a href="/instructor/my-courses" class="{% if page == 'courses' %}active{% endif %}"><i class="fas fa-book"></i>
-          My Courses</a>
-        <a href="/instructor/create-course" class="{% if page == 'create' %}active{% endif %}"><i
-            class="fas fa-plus-circle"></i> Create Course</a>
-        <a href="/instructor/analytics" class="{% if page == 'analytics' %}active{% endif %}"><i
-            class="fas fa-chart-line"></i> Analytics</a>
-        <a href="/instructor/profile" class="{% if page == 'profile' %}active{% endif %}"><i class="fas fa-user"></i>
-          Profile</a>
-        <a href="/instructor/settings" class="{% if page == 'settings' %}active{% endif %}"><i class="fas fa-cog"></i>
-          Settings</a>
-        <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      <div class="brand">
+        <i class="fas fa-rocket"></i> Academia
+      </div>
 
-        <!-- Theme Toggle -->
-        <button id="darkModeToggle" class="theme-toggle">
-          <i class="fas fa-sun"></i>
-          <span>Light Mode</span>
-        </button>
+      <nav>
+        <a href="/instructor/dashboard" class="{% if page == 'dashboard' %}active{% endif %}">
+          <i class="fas fa-home"></i> Dashboard
+        </a>
+
+        <a href="/instructor/my-courses" class="{% if page == 'courses' %}active{% endif %}">
+          <i class="fas fa-book"></i> My Courses
+        </a>
+
+        <a href="/instructor/create-course" class="{% if page == 'create' %}active{% endif %}">
+          <i class="fas fa-plus-circle"></i> Create Course
+        </a>
+
+        <a href="/instructor/analytics" class="{% if page == 'analytics' %}active{% endif %}">
+          <i class="fas fa-chart-line"></i> Analytics
+        </a>
+
+        <a href="/instructor/profile" class="{% if page == 'profile' %}active{% endif %}">
+          <i class="fas fa-user"></i> Profile
+        </a>
+
+        <a href="/instructor/settings" class="{% if page == 'settings' %}active{% endif %}">
+          <i class="fas fa-cog"></i> Settings
+        </a>
+
+        <a href="/logout">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+
+        <!-- ❌ DARK/LIGHT TOGGLE REMOVED COMPLETELY -->
       </nav>
     </aside>
 
@@ -50,44 +59,15 @@
     <main class="main" style="margin-left: 260px;">
       {% block content %}{% endblock %}
     </main>
+
   </div>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="/static/js/instructor_dash.js"></script>
 
-  <!-- Dark Mode Persistence -->
-  <script>
-    const html = document.documentElement;
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    html.setAttribute('data-theme', savedTheme);
-    document.cookie = "theme=" + savedTheme + "; path=/";
+ 
 
-    window.addEventListener('DOMContentLoaded', () => {
-      const toggleBtn = document.getElementById('darkModeToggle');
-      if (!toggleBtn) return;
-
-      const icon = toggleBtn.querySelector('i');
-      const label = toggleBtn.querySelector('span');
-
-      function updateToggle(theme) {
-        icon.className = theme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
-        label.textContent = theme === 'light' ? 'Light Mode' : 'Dark Mode';
-      }
-
-      updateToggle(savedTheme);
-
-      toggleBtn.onclick = () => {
-        const currentTheme = html.getAttribute('data-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        html.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        document.cookie = "theme=" + newTheme + "; path=/";
-        updateToggle(newTheme);
-      };
-    });
-  </script>
   {% block scripts %}{% endblock %}
 </body>
-
 </html>

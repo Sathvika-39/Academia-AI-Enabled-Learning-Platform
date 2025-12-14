@@ -113,3 +113,48 @@ canvas {
     font-size: 1.28rem;
   }
 }
+/* ===== PURE BLACK DARK MODE — ANALYTICS PAGE ===== */
+
+[data-theme="dark"],
+html[data-theme="dark"] {
+  --bg: #000000 !important;
+  --card-bg: #000000 !important;
+  --border: #1f1f1f !important;
+  --shadow: none !important;
+  --text: #f8fafc !important;
+  --text-muted: #9ca3af !important;
+}
+
+/* Page background */
+[data-theme="dark"] body,
+[data-theme="dark"] .analytics-dashboard {
+  background: #000000 !important;
+}
+
+/* Charts grid wrapper */
+[data-theme="dark"] .charts {
+  background: #000000 !important;
+}
+
+/* Chart cards */
+[data-theme="dark"] .chart-box {
+  background: #000000 !important;
+  border: 1px solid #1f1f1f !important;
+  box-shadow: none !important;
+}
+
+/* Titles */
+[data-theme="dark"] .analytics-title,
+[data-theme="dark"] .chart-box h3 {
+  color: #f8fafc !important;
+}
+
+/* Canvas background (charts) */
+[data-theme="dark"] canvas {
+  background: #000000 !important;
+}
+
+/* Kill ALL blue / gradient leftovers */
+[data-theme="dark"] * {
+  background-image: none !important;
+}

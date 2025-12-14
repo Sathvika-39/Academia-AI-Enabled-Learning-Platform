@@ -466,3 +466,49 @@ body {
   .course-sidebar-card { max-width: 100%; margin-top: 2.1rem;}
   .course-container { gap: 1.1rem; }
 }
+/* ===== FORCE VIEW COURSE PAGE BLACK ===== */
+
+body,
+.course-container {
+  background: #000000 !important;
+}
+
+/* all cards / sections */
+.section,
+.course-structure,
+.accordion-section,
+.accordion-header,
+.accordion-body,
+.course-sidebar-card {
+  background: #000000 !important;
+  border-color: #222 !important;
+  box-shadow: none !important;
+}
+
+/* remove light hover */
+.accordion-header:hover,
+.topic-row:hover {
+  background: #111111 !important;
+}
+
+/* text */
+.section *,
+.course-content *,
+.course-sidebar-card * {
+  color: #e5e7eb;
+}
+
+/* headings */
+.course-content h1,
+.section h2,
+.structure-title,
+.sidebar-title {
+  color: #ffffff !important;
+}
+
+/* muted text */
+.subtitle,
+.meta p,
+.topic-time {
+  color: #9ca3af !important;
+}

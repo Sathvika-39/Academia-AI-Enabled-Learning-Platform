@@ -484,3 +484,49 @@ nav h2 {
 .toggle-right p {
     color: #fff !important;
 }
+/* Make ONLY the SIGN UP button black */
+.toggle-right button {
+  background: #000 !important;
+  color: #fff !important;
+  border: 1px solid #000 !important;
+}
+
+/* ===== FORCE BLACK BEHIND NAVBAR & LOGIN BOX ===== */
+
+/* Full page background */
+html, body {
+  background: #000000 !important;
+}
+
+/* Navbar background (behind Academia text) */
+nav {
+  background: #000000 !important;
+  background-image: none !important;
+}
+
+/* Area behind the login/signup container */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: #000000;
+  z-index: -1;
+}
+
+/* Main login/signup container background */
+.container {
+  background: #000000 !important;
+}
+
+/* Animation / toggle panel background (yellow part stays as is) */
+.toggle-container {
+  background: #000000 !important;
+}
+
+/* Remove any remaining gradients */
+body,
+nav,
+.container,
+.toggle-container {
+  background-image: none !important;
+}

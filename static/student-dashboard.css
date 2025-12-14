@@ -395,3 +395,60 @@ img {
   transform: scale(1.07) rotate(-2deg);
   box-shadow: 0 6px 22px 4px rgba(255, 214, 60, 0.20);
 }
+/* ===== PURE BLACK DARK MODE (NO BLUE ANYWHERE) ===== */
+
+[data-theme="dark"] {
+  --bg: #000000 !important;
+  --card-bg: #000000 !important;
+  --border: #1f1f1f !important;
+  --shadow: none !important;
+  --text: #f8fafc !important;
+  --text-muted: #9ca3af !important;
+}
+
+/* Page background */
+[data-theme="dark"] body {
+  background: #000000 !important;
+}
+
+/* Sidebar + main areas */
+[data-theme="dark"] .sidebar,
+[data-theme="dark"] .main-content,
+[data-theme="dark"] .dashboard,
+[data-theme="dark"] .content {
+  background: #000000 !important;
+}
+
+/* Top bar */
+[data-theme="dark"] .topbar {
+  background: #000000 !important;
+  border-bottom: 1px solid #1f1f1f !important;
+}
+
+/* ALL cards */
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .chart-box,
+[data-theme="dark"] .course-card,
+[data-theme="dark"] .user-info {
+  background: #000000 !important;
+  border: 1px solid #1f1f1f !important;
+  box-shadow: none !important;
+}
+
+/* Progress bar background */
+[data-theme="dark"] .progress-bar {
+  background: #1f1f1f !important;
+}
+
+/* Remove every gradient / blue shade */
+[data-theme="dark"] * {
+  background-image: none !important;
+}
+
+/* Keep buttons yellow */
+[data-theme="dark"] .btn,
+[data-theme="dark"] .continue-btn,
+[data-theme="dark"] .view-all-btn {
+  background: #facc15 !important;
+  color: #000000 !important;
+}

@@ -884,3 +884,52 @@ img { display:block; max-width:100%; height:auto; }
 @media (max-width: 480px) {
   .student-opinion-cards { animation-duration: 28s; }
 }
+/* ===== FORCE DARK HOME PAGE ===== */
+
+body {
+  background: #0a0a0a;
+  color: #f8fafc;
+}
+
+/* Sections */
+section,
+.hero,
+.academia-roadmap,
+.features-section,
+.student-opinion-section,
+.contact-us-section {
+  background: #0f0f0f;
+}
+
+/* Cards – ALL BLACK */
+.hero-card,
+.roadmap-card,
+.feature-item,
+.opinion-card,
+.course-item {
+  background: #000000;
+  border: 1px solid #1f1f1f;
+}
+
+/* Navbar */
+nav {
+  background: #000000;
+  border-bottom: 1px solid #1f1f1f;
+}
+
+/* Inputs */
+input,
+textarea {
+  background: #000000;
+  color: #f8fafc;
+  border: 1px solid #1f1f1f;
+}
+
+/* Text colors */
+p {
+  color: #b8c1d6;
+}
+
+h1, h2, h3, h4, h5 {
+  color: #f8fafc;
+}

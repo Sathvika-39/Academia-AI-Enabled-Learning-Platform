@@ -1,18 +1,18 @@
 /* ======= Global Variables ======= */
 :root {
   --bg-light: #f8fafc;
-  --bg-dark: #1a1c2c;
-  --text-light: #0f172a;
+  --bg-dark: #010209;
+  --text-light: #01040c;
   --text-dark: #f1f5f9;
   --card-light: #ffffff;
-  --card-dark: #2d3142;
+  --card-dark: #000209;
   --primary: #facc15;
-  --primary-dark: #0f172a;
+  --primary-dark: #01040c;
   --accent: #facc15;
-  --muted: #64748b;
+  --muted: #000103;
   --hover-bg: #f1f5f9;
-  --hover-dark-bg: #2a2d3e;
-  --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --hover-dark-bg: #010208;
+  --shadow: 0 4px 20px rgba(12, 2, 2, 0.913);
   --radius: 12px;
   --transition: 0.3s ease-in-out;
 }
@@ -266,4 +266,31 @@ section.my-courses {
 
 [data-theme="dark"] ::-webkit-scrollbar-thumb {
   background-color: var(--accent);
+}
+/* ================== THEME FIX (EXACT) ================== */
+
+/* My Courses container background */
+section.my-courses {
+  background-color: var(--bg-light);
+  transition: background var(--transition);
+}
+
+[data-theme="dark"] section.my-courses {
+  background-color: var(--bg-dark);
+}
+
+/* Search & Filter inputs – LIGHT MODE FIX */
+[data-theme="light"] .search-input,
+[data-theme="light"] .filter-dropdown {
+  background-color: #ffffff;
+  color: var(--text-light);
+  border-color: var(--muted);
+}
+
+/* Search & Filter inputs – DARK MODE */
+[data-theme="dark"] .search-input,
+[data-theme="dark"] .filter-dropdown {
+  background-color: var(--card-dark);
+  color: #ffffff;
+  border-color: #444;
 }
