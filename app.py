@@ -13,11 +13,16 @@ app = Flask(__name__)
 app.secret_key = "supersecretkey"  
 
 # MongoDB connection
-client = MongoClient(os.getenv("MONGO_URI"))
-db = client["Ascend"]
+# MongoDB connection (Gunicorn-safe)
+def get_db():
+    client = MongoClient(os.getenv("MONGO_URI"))
+    return client["Ascend"]
+
+db = get_db()
 courses_collection = db["courses"]
 enrollments_collection = db.enrollments
 users_collection = db.users
+
 
 # Cloudinary config
 cloudinary.config(
