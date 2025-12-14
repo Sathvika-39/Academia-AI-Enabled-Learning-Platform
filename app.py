@@ -14,7 +14,7 @@ app.secret_key = "supersecretkey"
 
 # MongoDB connection
 client = MongoClient(os.getenv("MONGO_URI"))
-db = client.get_default_database()
+db = client["Ascend"]   # use YOUR database name
 courses_collection = db["courses"]
 enrollments_collection = db.enrollments
 users_collection = db.users
