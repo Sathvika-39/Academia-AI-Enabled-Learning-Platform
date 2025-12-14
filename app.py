@@ -1,35 +1,34 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from pymongo import MongoClient
 import cloudinary
-import cloudinary.uploader
 import os
 from dotenv import load_dotenv
 import bcrypt
 
 # --------------------------------------------------
-# Load environment variables
+# Load env (local only). On Render, set env vars in dashboard.
 # --------------------------------------------------
 load_dotenv()
 
 # --------------------------------------------------
 # Flask App
 # --------------------------------------------------
-app = Flask(
-    __name__,
-    static_folder="static",
-    template_folder="templates"
-)
-
-app.secret_key = os.getenv("SECRET_KEY", "dev-secret")
+app = Flask(__name__, static_folder="static", template_folder="templates")
+app.secret_key = os.getenv("SECRET_KEY", "dev-secret")  # ✅ do not hardcode
 
 # --------------------------------------------------
-# MongoDB Connection (Render Safe)
+# MongoDB Connection (Render safe + fail-fast)
 # --------------------------------------------------
 MONGO_URI = os.getenv("MONGO_URI")
 DB_NAME = os.getenv("DB_NAME", "Ascend")
 
 if not MONGO_URI:
-    raise RuntimeError("❌ MONGO_URI not set in environment variables")
+    raise RuntimeError("❌ MONGO_URI is missing. Set it in Render → Environment Variables.")
+
+# Ensure Atlas options exist (helps some setups)
+if "retryWrites" not in MONGO_URI:
+    joiner = "&" if "?" in MONGO_URI else "?"
+    MONGO_URI = f"{MONGO_URI}{joiner}retryWrites=true&w=majority"
 
 client = MongoClient(
     MONGO_URI,
@@ -40,21 +39,20 @@ client = MongoClient(
 
 db = client[DB_NAME]
 
-# Verify DB connection on boot
+# Verify DB connection on boot (so we fail early with real error)
 try:
     client.admin.command("ping")
-    print("✅ MongoDB connected successfully")
+    print("✅ MongoDB connected")
 except Exception as e:
     print("❌ MongoDB connection failed:", e)
     raise
 
-# Collections
-courses_collection = db.courses
-enrollments_collection = db.enrollments
-users_collection = db.users
+courses_collection = db["courses"]
+enrollments_collection = db["enrollments"]
+users_collection = db["users"]
 
 # --------------------------------------------------
-# Cloudinary Configuration
+# Cloudinary Config
 # --------------------------------------------------
 cloudinary.config(
     cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
@@ -63,19 +61,17 @@ cloudinary.config(
 )
 
 # --------------------------------------------------
-# Create Admin User (Runs on Render too)
+# Create admin user (runs on Render too)
 # --------------------------------------------------
 def create_admin_if_not_exists():
     admin_email = "admin@ascend.com"
+    existing_admin = users_collection.find_one({"email": admin_email})
 
-    if users_collection.find_one({"email": admin_email}):
-        print("ℹ️ Admin already exists")
+    if existing_admin:
+        print("ℹ️ Admin user already exists")
         return
 
-    hashed_password = bcrypt.hashpw(
-        "admin123".encode("utf-8"),
-        bcrypt.gensalt()
-    )
+    hashed_password = bcrypt.hashpw("admin123".encode("utf-8"), bcrypt.gensalt())
 
     users_collection.insert_one({
         "fullname": "Super Admin",
@@ -84,17 +80,16 @@ def create_admin_if_not_exists():
         "password": hashed_password.decode("utf-8"),
         "role": "admin",
     })
-
     print("✅ Admin user created")
 
-# Run once at startup (Gunicorn safe)
+# Run at import time (Gunicorn/Render will execute this)
 try:
     create_admin_if_not_exists()
 except Exception as e:
     print("⚠️ Admin creation skipped:", e)
 
 # --------------------------------------------------
-# Routes – Pages
+# Routes
 # --------------------------------------------------
 @app.route("/")
 def home():
@@ -108,13 +103,11 @@ def courses():
 def about():
     return render_template("about.html")
 
-# --------------------------------------------------
 # Sign In / Sign Up
-# --------------------------------------------------
 @app.route("/signin-up", methods=["GET", "POST"])
 def signin_signup():
     if request.method == "POST":
-        action = request.form.get("action")
+        action = request.form.get("action")  # "signup" or "signin"
         email = request.form.get("email", "").strip().lower()
         password = request.form.get("password", "").strip()
 
@@ -126,7 +119,7 @@ def signin_signup():
                 panel=action
             )
 
-        # ---------------- SIGN UP ----------------
+        # ---------------- SIGNUP ----------------
         if action == "signup":
             fullname = request.form.get("fullname", "").strip()
             mobile = request.form.get("mobile", "").strip()
@@ -148,11 +141,7 @@ def signin_signup():
                     panel="signup"
                 )
 
-            hashed_pw = bcrypt.hashpw(
-                password.encode("utf-8"),
-                bcrypt.gensalt()
-            )
-
+            hashed_pw = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
             users_collection.insert_one({
                 "fullname": fullname,
                 "email": email,
@@ -164,10 +153,9 @@ def signin_signup():
             flash("Signup successful! Please sign in.", "success")
             return redirect(url_for("signin_signup"))
 
-        # ---------------- SIGN IN ----------------
-        if action == "signin":
+        # ---------------- SIGNIN ----------------
+        elif action == "signin":
             user = users_collection.find_one({"email": email})
-
             if not user:
                 return render_template(
                     "signin-up.html",
@@ -176,10 +164,7 @@ def signin_signup():
                     panel="signin"
                 )
 
-            if not bcrypt.checkpw(
-                password.encode("utf-8"),
-                user["password"].encode("utf-8")
-            ):
+            if not bcrypt.checkpw(password.encode("utf-8"), user["password"].encode("utf-8")):
                 return render_template(
                     "signin-up.html",
                     error="Incorrect password.",
@@ -200,40 +185,41 @@ def signin_signup():
 
             return render_template(
                 "signin-up.html",
-                error="Unknown role.",
+                error="Unknown user role. Contact support.",
                 error_type="signin",
                 panel="signin"
             )
 
+        # Unknown action
+        return render_template(
+            "signin-up.html",
+            error="Invalid action.",
+            error_type="signin",
+            panel="signin"
+        )
+
     return render_template("signin-up.html", panel="signin")
 
-# --------------------------------------------------
 # Logout
-# --------------------------------------------------
 @app.route("/logout")
 def logout():
     session.clear()
-    flash("Logged out successfully.", "success")
+    flash("You have been logged out.", "success")
     return redirect(url_for("signin_signup"))
 
-# --------------------------------------------------
-# Theme Injector
-# --------------------------------------------------
 @app.context_processor
 def inject_theme():
     theme = request.cookies.get("theme", "light")
     return dict(theme=theme)
 
-# --------------------------------------------------
-# Health Check (VERY IMPORTANT)
-# --------------------------------------------------
+# Health route (check DB from browser)
 @app.route("/health")
 def health():
     client.admin.command("ping")
     return {"status": "ok"}
 
 # --------------------------------------------------
-# Controllers
+# Controllers (keep as you had)
 # --------------------------------------------------
 from controllers.admin import *
 from controllers.instructor import *
@@ -241,7 +227,7 @@ from controllers.student import *
 from controllers.chat import *
 
 # --------------------------------------------------
-# Local run only
+# Local run only (Render uses gunicorn)
 # --------------------------------------------------
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", "5000")), debug=True)
