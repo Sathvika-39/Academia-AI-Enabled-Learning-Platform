@@ -4,16 +4,12 @@ from flask import request, jsonify, session
 from app import app, db
 from bson import ObjectId
 
+# --------------------------------------------------
 # Configure Gemini
+# --------------------------------------------------
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-# Fallback model order
-GEMINI_MODELS = [
-    "models/gemini-2.5-flash",
-    "models/gemini-2.0-flash-lite",
-    "models/gemini-2.0-flash-exp",
-    "models/gemini-flash-lite-latest",
-]
+MODEL_NAME = "models/gemini-2.5-flash"
 
 
 def get_student_context(user_id):
@@ -29,32 +25,32 @@ def get_student_context(user_id):
                     f"- {course['title']}: {e.get('progress', 0)}% completed"
                 )
 
-        ctx = f"Student: {user.get('fullname','Student')}\nProgress:\n" + "\n".join(progress_list)
+        ctx = (
+            f"Student: {user.get('fullname', 'Student')}\n"
+            f"Progress:\n" + "\n".join(progress_list)
+        )
         return ctx
+
     except Exception as e:
         return f"Error fetching student context: {e}"
 
 
-def generate_with_fallback(prompt):
+def generate_ai_response(prompt):
     """
-    Try each Gemini model one by one.
-    If all fail, return fallback message.
+    Generate response using ONLY Gemini 2.5 Flash.
     """
-    for model_name in GEMINI_MODELS:
-        try:
-            model = genai.GenerativeModel(model_name)
-            response = model.generate_content(prompt)
-            if response and hasattr(response, "text"):
-                return response.text
+    try:
+        model = genai.GenerativeModel(MODEL_NAME)
+        response = model.generate_content(prompt)
 
-        except Exception as e:
-            print(f"Gemini model failed ({model_name}):", e)
+        if response and hasattr(response, "text"):
+            return response.text
 
-            # Continue to next model automatically
-            continue
+        return "⚠️ AI response was empty. Please try again."
 
-    # If ALL models fail:
-    return "Sorry, my AI engine is temporarily over quota. Try again in a few minutes."
+    except Exception as e:
+        print("Gemini error:", e)
+        return "⚠️ AI service is temporarily unavailable. Please try again later."
 
 
 @app.route("/student/chat", methods=["POST"])
@@ -63,7 +59,7 @@ def student_chat():
         return jsonify({"error": "Unauthorized"}), 401
 
     data = request.get_json()
-    user_msg = data.get("message", "")
+    user_msg = data.get("message", "").strip()
 
     if not user_msg:
         return jsonify({"error": "Empty message"}), 400
@@ -71,13 +67,13 @@ def student_chat():
     context = get_student_context(session["user_id"])
 
     prompt = f"""
-    You are Academia Assistant.
-    Help the student with friendly, accurate, educational guidance.
+You are Academia Assistant.
+Help the student with friendly, accurate, educational guidance.
 
-    {context}
+{context}
 
-    User: {user_msg}
-    """
+User: {user_msg}
+"""
 
-    ai_response = generate_with_fallback(prompt)
+    ai_response = generate_ai_response(prompt)
     return jsonify({"response": ai_response})
